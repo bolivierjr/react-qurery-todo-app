@@ -5,9 +5,7 @@ import { createTodo, deleteTodo, getAllTodos, updateTodo } from '../api/todos';
 import TodoCard from './TodoCard';
 import Loader from '../components/Loader';
 import useCustomQuery from '../hooks/useCustomQuery';
-import useUpdateMutation from '../hooks/useUpdateMutation';
-import useDeleteMutation from '../hooks/useDeleteMutation';
-import useCreateMutation from '../hooks/useCreateMutation';
+import useCustomMutation from '../hooks/useCustomMutation';
 import useOptimisticUpdates from './hooks/useOptimisticUpdates';
 
 const Wrapper = styled.div`
@@ -45,13 +43,13 @@ const TodoApp = () => {
     mutate: mutateCreateTodo,
     isError: isCreateError,
     error: createError
-  } = useCreateMutation('todos', createTodo, { onMutate: onMutateCreate });
+  } = useCustomMutation('todos', createTodo, { onMutate: onMutateCreate });
 
   const {
     mutate: mutateUpdateTodo,
     isError: isUpdateError,
     error: updateError
-  } = useUpdateMutation('todos', ({ id, update }) => updateTodo(id, update), {
+  } = useCustomMutation('todos', ({ id, update }) => updateTodo(id, update), {
     onMutate: onMutateUpdate
   });
 
@@ -59,7 +57,7 @@ const TodoApp = () => {
     mutate: mutateDeleteTodo,
     isError: isDeleteError,
     error: deleteError
-  } = useDeleteMutation('todos', deleteTodo, { onMutate: onMutateDelete });
+  } = useCustomMutation('todos', deleteTodo, { onMutate: onMutateDelete });
 
   useEffect(() => {
     if (todos) setFilteredTodos(getFilteredTodos());
