@@ -1,17 +1,8 @@
 import { useMutation, useQueryClient } from 'react-query';
 
 const useDeleteMutation = (queryKey, mutationFn, optionsOverride = {}) => {
+  if (!optionsOverride.onMutate) throw new Error('Missing onMutate override.');
   const queryClient = useQueryClient();
-
-  const onMutate = async (newData) => {
-    await queryClient.cancelQueries(queryKey);
-    const previousData = queryClient.getQueryData(queryKey);
-    // Set optimistic udpdate
-    queryClient.setQueryData(queryKey, (oldData) => {
-      return [...oldData].filter((data) => data.id !== newData);
-    });
-    return { previousData };
-  };
 
   const onError = (err, newData, context) => {
     queryClient.setQueryData(queryKey, context.previousData);
@@ -22,7 +13,6 @@ const useDeleteMutation = (queryKey, mutationFn, optionsOverride = {}) => {
   };
 
   return useMutation(mutationFn, {
-    onMutate: onMutate,
     onError: onError,
     onSuccess: onSuccess,
     ...optionsOverride
