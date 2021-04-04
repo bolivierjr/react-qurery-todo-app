@@ -37,9 +37,6 @@ const EmptyDiv = styled.div`
 `;
 
 const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, onCompletion }) => {
-  useEffect(() => {
-    console.log(todo);
-  }, [todo]);
   const [priorityChecked, setPriorityChecked] = useState();
   const [completedChecked, setCompletedChecked] = useState(false);
   const [todoInput, setTodoInput] = useState('');

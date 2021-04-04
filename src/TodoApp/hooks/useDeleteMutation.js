@@ -1,16 +1,14 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-const useUpdateMutation = (queryKey, mutationFn, optionsOverride = {}) => {
+const useDeleteMutation = (queryKey, mutationFn, optionsOverride = {}) => {
   const queryClient = useQueryClient();
 
   const onMutate = async (newData) => {
     await queryClient.cancelQueries(queryKey);
     const previousData = queryClient.getQueryData(queryKey);
+    // Set optimistic udpdate
     queryClient.setQueryData(queryKey, (oldData) => {
-      const { id, update } = newData;
-      return [...oldData].map((data) => {
-        return data.id === id ? { ...data, ...update } : data;
-      });
+      return [...oldData].filter((data) => data.id !== newData);
     });
     return { previousData };
   };
@@ -20,7 +18,7 @@ const useUpdateMutation = (queryKey, mutationFn, optionsOverride = {}) => {
   };
 
   const onSuccess = (data, newData, context) => {
-    queryClient.invalidateQueries('todos');
+    queryClient.invalidateQueries(queryKey);
   };
 
   return useMutation(mutationFn, {
@@ -31,4 +29,4 @@ const useUpdateMutation = (queryKey, mutationFn, optionsOverride = {}) => {
   });
 };
 
-export default useUpdateMutation;
+export default useDeleteMutation;

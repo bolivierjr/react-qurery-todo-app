@@ -5,9 +5,9 @@ import { createTodo, deleteTodo, getAllTodos, updateTodo } from '../api/todos';
 import TodoCard from './TodoCard';
 import Loader from '../components/Loader';
 import useCustomQuery from '../hooks/useCustomQuery';
-import useUpdateMutation from '../hooks/useUpdateMutation';
-import useDeleteMutation from '../hooks/useDeleteMutation';
-import useCreateMutation from '../hooks/useCreateMutation';
+import useUpdateMutation from './hooks/useUpdateMutation';
+import useDeleteMutation from './hooks/useDeleteMutation';
+import useCreateMutation from './hooks/useCreateMutation';
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,9 +49,7 @@ const TodoApp = () => {
     mutate: mutateUpdateTodo,
     isError: isUpdateError,
     error: updateError
-  } = useUpdateMutation('todos', ({ id, update }) => {
-    return updateTodo(id, update);
-  });
+  } = useUpdateMutation('todos', ({ id, update }) => updateTodo(id, update));
 
   const {
     mutate: mutateDeleteTodo,
@@ -59,12 +57,13 @@ const TodoApp = () => {
     error: deleteError
   } = useDeleteMutation('todos', deleteTodo);
 
-  const handleExpandChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
   useEffect(() => {
     if (todos) setFilteredTodos(getFilteredTodos());
   }, [tabValue, todos]);
+
+  const handleExpandChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   const handleOnKeyDown = (event) => {
     event.stopPropagation();
