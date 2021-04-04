@@ -37,10 +37,16 @@ const EmptyDiv = styled.div`
 `;
 
 const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, onCompletion }) => {
-  const [priorityChecked, setPriorityChecked] = useState();
+  const [priorityChecked, setPriorityChecked] = useState(false);
   const [completedChecked, setCompletedChecked] = useState(false);
   const [todoInput, setTodoInput] = useState('');
   const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    setPriorityChecked(todo.prioritized);
+    setCompletedChecked(todo.completed);
+    setTodoInput(todo.description);
+  }, [todo]);
 
   const handleCompletedClick = (event) => {
     event.stopPropagation();
@@ -107,7 +113,7 @@ const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, 
             name="CompletedCheck"
             onClick={handleCompletedClick}
             onChange={(event) => event.stopPropagation()}
-            checked={todo.completed}
+            checked={completedChecked}
           />
           {getTodoDescription()}
           {getChipLabel()}
@@ -122,7 +128,7 @@ const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, 
                 color="secondary"
                 onClick={handlePriorityClick}
                 onChange={(event) => event.stopPropagation()}
-                checked={todo.prioritized}
+                checked={priorityChecked}
                 disabled={completedChecked}
               />
             }
