@@ -36,7 +36,15 @@ const EmptyDiv = styled.div`
   width: 82.69px;
 `;
 
-const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, onCompletion }) => {
+const TodoCard = ({
+  expanded,
+  handleExpandChange,
+  todo,
+  updateTodo,
+  deleteTodo,
+  onCompletion,
+  disableCard
+}) => {
   const [priorityChecked, setPriorityChecked] = useState(false);
   const [completedChecked, setCompletedChecked] = useState(false);
   const [todoInput, setTodoInput] = useState('');
@@ -84,6 +92,7 @@ const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, 
         onClick={(event) => event.stopPropagation()}
         onChange={(event) => setTodoInput(event.target.value)}
         value={todoInput}
+        disabled={disableCard}
       />
     );
   };
@@ -114,6 +123,7 @@ const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, 
             onClick={handleCompletedClick}
             onChange={(event) => event.stopPropagation()}
             checked={completedChecked}
+            disabled={disableCard}
           />
           {getTodoDescription()}
           {getChipLabel()}
@@ -129,7 +139,7 @@ const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, 
                 onClick={handlePriorityClick}
                 onChange={(event) => event.stopPropagation()}
                 checked={priorityChecked}
-                disabled={completedChecked}
+                disabled={completedChecked || disableCard}
               />
             }
             label="Prioritize"
@@ -139,11 +149,11 @@ const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, 
             <Button
               color="default"
               onClick={() => setEditMode(true)}
-              disabled={completedChecked || editMode}
+              disabled={completedChecked || editMode || disableCard}
             >
               Edit
             </Button>
-            <Button color="secondary" onClick={() => deleteTodo(todo.id)}>
+            <Button color="secondary" onClick={() => deleteTodo(todo.id)} disabled={disableCard}>
               Delete
             </Button>
           </div>

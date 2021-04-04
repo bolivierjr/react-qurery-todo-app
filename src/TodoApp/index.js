@@ -159,6 +159,7 @@ const TodoApp = () => {
               handleExpandChange={handleExpandChange}
               updateTodo={updateTodoMutation}
               deleteTodo={deleteTodoMutation}
+              disableCard={todo.id === 'fakeId'}
             />
           ))}
       </TodosWrapper>
