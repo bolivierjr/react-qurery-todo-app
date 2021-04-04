@@ -45,12 +45,6 @@ const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, 
   const [todoInput, setTodoInput] = useState('');
   const [editMode, setEditMode] = useState(false);
 
-  // useEffect(() => {
-  //   setTodoInput(todo.description);
-  //   setPriorityChecked(todo.prioritized);
-  //   setCompletedChecked(todo.completed);
-  // }, [todo]);
-
   const handleCompletedClick = (event) => {
     event.stopPropagation();
     if (!completedChecked) onCompletion();
