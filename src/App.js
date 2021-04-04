@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import TodoApp from "./TodoApp";
+import React from 'react';
+import styled from 'styled-components';
+import TodoApp from './TodoApp';
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Accordion,
   AccordionSummary,
@@ -7,12 +7,12 @@ import {
   Chip,
   FormControlLabel,
   Button,
-  Input,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import styled from "styled-components";
-import GreenCheckbox from "../components/GreenCheckBox";
-import GreenChip from "../components/GreenChip";
+  Input
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import styled from 'styled-components';
+import GreenCheckbox from '../components/GreenCheckBox';
+import GreenChip from '../components/GreenChip';
 
 const SummaryWrapper = styled.div`
   width: 100%;
@@ -21,8 +21,7 @@ const SummaryWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   .task-description {
-    text-decoration: ${({ completed }) =>
-      completed ? "line-through" : "none"};
+    text-decoration: ${({ completed }) => (completed ? 'line-through' : 'none')};
   }
 `;
 
@@ -37,20 +36,13 @@ const EmptyDiv = styled.div`
   width: 82.69px;
 `;
 
-const TodoCard = ({
-  expanded,
-  handleExpandChange,
-  todo,
-  updateTodo,
-  deleteTodo,
-  onCompletion,
-}) => {
+const TodoCard = ({ expanded, handleExpandChange, todo, updateTodo, deleteTodo, onCompletion }) => {
   useEffect(() => {
     console.log(todo);
   }, [todo]);
   const [priorityChecked, setPriorityChecked] = useState();
   const [completedChecked, setCompletedChecked] = useState(false);
-  const [todoInput, setTodoInput] = useState("");
+  const [todoInput, setTodoInput] = useState('');
   const [editMode, setEditMode] = useState(false);
 
   // useEffect(() => {

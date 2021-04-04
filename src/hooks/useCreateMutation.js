@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from 'react-query';
 
 const useCreateMutation = (queryKey, mutationFn, optionsOverride = {}) => {
   const queryClient = useQueryClient();
@@ -9,12 +9,12 @@ const useCreateMutation = (queryKey, mutationFn, optionsOverride = {}) => {
     queryClient.setQueryData(queryKey, (oldData) => {
       return [
         {
-          id: "fakeId",
+          id: 'fakeId',
           completed: false,
           prioritized: false,
-          description: newData,
+          description: newData
         },
-        ...oldData,
+        ...oldData
       ];
     });
     return { previousData };
@@ -25,14 +25,14 @@ const useCreateMutation = (queryKey, mutationFn, optionsOverride = {}) => {
   };
 
   const onSuccess = (data, newData, context) => {
-    queryClient.invalidateQueries("todos");
+    queryClient.invalidateQueries('todos');
   };
 
   return useMutation(mutationFn, {
     onMutate: onMutate,
     onError: onError,
     onSuccess: onSuccess,
-    ...optionsOverride,
+    ...optionsOverride
   });
 };
 

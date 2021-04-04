@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Box, Tab, Tabs, TextField } from "@material-ui/core";
-import styled from "styled-components";
-import { createTodo, deleteTodo, getAllTodos, updateTodo } from "../api/todos";
-import TodoCard from "./TodoCard";
-import Loader from "../components/Loader";
-import useCustomQuery from "../hooks/useCustomQuery";
-import useUpdateMutation from "../hooks/useUpdateMutation";
-import useDeleteMutation from "../hooks/useDeleteMutation";
-import useCreateMutation from "../hooks/useCreateMutation";
+import React, { useState, useEffect } from 'react';
+import { Box, Tab, Tabs, TextField } from '@material-ui/core';
+import styled from 'styled-components';
+import { createTodo, deleteTodo, getAllTodos, updateTodo } from '../api/todos';
+import TodoCard from './TodoCard';
+import Loader from '../components/Loader';
+import useCustomQuery from '../hooks/useCustomQuery';
+import useUpdateMutation from '../hooks/useUpdateMutation';
+import useDeleteMutation from '../hooks/useDeleteMutation';
+import useCreateMutation from '../hooks/useCreateMutation';
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,34 +30,34 @@ const TodoApp = () => {
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [tabValue, setTabValue] = useState(0);
-  const [addTodoInput, setAddTodoInput] = useState("");
+  const [addTodoInput, setAddTodoInput] = useState('');
 
   const {
     data: todos,
     error: todosError,
     isLoading: isTodosLoading,
-    isError: isTodosError,
-  } = useCustomQuery("todos", getAllTodos);
+    isError: isTodosError
+  } = useCustomQuery('todos', getAllTodos);
 
   const {
     mutate: mutateCreateTodo,
     isError: isCreateError,
-    error: createError,
-  } = useCreateMutation("todos", createTodo);
+    error: createError
+  } = useCreateMutation('todos', createTodo);
 
   const {
     mutate: mutateUpdateTodo,
     isError: isUpdateError,
-    error: updateError,
-  } = useUpdateMutation("todos", ({ id, update }) => {
+    error: updateError
+  } = useUpdateMutation('todos', ({ id, update }) => {
     return updateTodo(id, update);
   });
 
   const {
     mutate: mutateDeleteTodo,
     isError: isDeleteError,
-    error: deleteError,
-  } = useDeleteMutation("todos", deleteTodo);
+    error: deleteError
+  } = useDeleteMutation('todos', deleteTodo);
 
   const handleExpandChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -68,10 +68,10 @@ const TodoApp = () => {
 
   const handleOnKeyDown = (event) => {
     event.stopPropagation();
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       if (addTodoInput) {
         setExpanded(false);
-        setAddTodoInput("");
+        setAddTodoInput('');
         createTodoMutation(addTodoInput);
       }
     }
@@ -118,7 +118,7 @@ const TodoApp = () => {
   return (
     <Wrapper>
       {isTodosLoading && <Loader />}
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: '100%' }}>
         <Tabs
           textColor="primary"
           indicatorColor="primary"

@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from 'react-query';
 
 const useCustomQuery = (queryKey, queryFn, optionsOverride = {}) => {
   const opts = {
@@ -7,7 +7,7 @@ const useCustomQuery = (queryKey, queryFn, optionsOverride = {}) => {
     refetchIntervalInBackground: true,
     refetchOnWindowFocus: false,
     retry: 2,
-    ...optionsOverride,
+    ...optionsOverride
   };
   return useQuery(queryKey, queryFn, opts);
 };

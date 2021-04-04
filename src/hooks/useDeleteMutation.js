@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from 'react-query';
 
 const useDeleteMutation = (queryKey, mutationFn, optionsOverride = {}) => {
   const queryClient = useQueryClient();
@@ -17,14 +17,14 @@ const useDeleteMutation = (queryKey, mutationFn, optionsOverride = {}) => {
   };
 
   const onSuccess = (data, newData, context) => {
-    queryClient.invalidateQueries("todos");
+    queryClient.invalidateQueries('todos');
   };
 
   return useMutation(mutationFn, {
     onMutate: onMutate,
     onError: onError,
     onSuccess: onSuccess,
-    ...optionsOverride,
+    ...optionsOverride
   });
 };
 

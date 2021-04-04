@@ -1,6 +1,6 @@
-import React from "react";
-import { Backdrop, CircularProgress } from "@material-ui/core";
-import styled from "styled-components";
+import React from 'react';
+import { Backdrop, CircularProgress } from '@material-ui/core';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   position: absolute;
