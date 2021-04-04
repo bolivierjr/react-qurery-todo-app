@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const idOne = uuidv4();
 const idTwo = uuidv4();
+const idThree = uuidv4();
 let todos = {
   [idOne]: {
     id: idOne,
@@ -14,6 +15,12 @@ let todos = {
     description: 'My second today item',
     prioritized: false,
     completed: false
+  },
+  [idThree]: {
+    id: idThree,
+    description: 'My third today item',
+    prioritized: false,
+    completed: true
   }
 };
 
