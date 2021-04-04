@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Tab, Tabs, TextField } from '@material-ui/core';
+import { Box, Checkbox, FormControlLabel, Tab, Tabs, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 import { createTodo, deleteTodo, getAllTodos, updateTodo } from '../api/todos';
 import TodoCard from './TodoCard';
@@ -16,13 +16,19 @@ const Wrapper = styled.div`
 
 const InputWrapper = styled.div`
   margin-bottom: 1rem;
-  width: 30%;
-  min-width: 30%;
+  width: 60%;
+  min-width: 60%;
+  display: flex;
+  align-items: center;
+`;
+
+const CheckboxWrapper = styled.div`
+  padding: 1rem 1rem 0 1rem;
 `;
 
 const TodosWrapper = styled.div`
-  margin: 5rem auto;
-  min-width: 40%;
+  margin: 3rem auto;
+  min-width: 45%;
 `;
 
 const TodoApp = () => {
@@ -30,6 +36,7 @@ const TodoApp = () => {
   const [expanded, setExpanded] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const [addTodoInput, setAddTodoInput] = useState('');
+  const [makeNewTodoPrioritized, setMakeNewTodoPrioritized] = useState(false);
   const { onMutateCreate, onMutateDelete, onMutateUpdate } = useOptimisticUpdates('todos');
 
   const {
@@ -43,7 +50,13 @@ const TodoApp = () => {
     mutate: mutateCreateTodo,
     isError: isCreateError,
     error: createError
-  } = useCustomMutation('todos', createTodo, { onMutate: onMutateCreate });
+  } = useCustomMutation(
+    'todos',
+    ({ description, prioritize }) => createTodo(description, prioritize),
+    {
+      onMutate: onMutateCreate
+    }
+  );
 
   const {
     mutate: mutateUpdateTodo,
@@ -73,13 +86,14 @@ const TodoApp = () => {
       if (addTodoInput) {
         setExpanded(false);
         setAddTodoInput('');
-        createTodoMutation(addTodoInput);
+        createTodoMutation(addTodoInput, makeNewTodoPrioritized);
+        setMakeNewTodoPrioritized(false);
       }
     }
   };
 
-  const createTodoMutation = async (todo) => {
-    await mutateCreateTodo(todo);
+  const createTodoMutation = async (description, prioritize) => {
+    await mutateCreateTodo({ description, prioritize });
   };
 
   const updateTodoMutation = async (id, update) => {
@@ -148,7 +162,23 @@ const TodoApp = () => {
             onKeyDown={handleOnKeyDown}
             value={addTodoInput}
           />
+          <CheckboxWrapper>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="PriorityCheck"
+                  color="secondary"
+                  onClick={() => setMakeNewTodoPrioritized((checked) => !checked)}
+                  onChange={(event) => event.stopPropagation()}
+                  checked={makeNewTodoPrioritized}
+                />
+              }
+              label="Prioritize"
+              labelPlacement="right"
+            />
+          </CheckboxWrapper>
         </InputWrapper>
+
         {filteredTodos &&
           filteredTodos.map((todo) => (
             <TodoCard

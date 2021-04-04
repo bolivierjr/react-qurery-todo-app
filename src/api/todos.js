@@ -35,19 +35,19 @@ export const getAllTodos = async () => {
   });
 };
 
-export const createTodo = (todo) => {
+export const createTodo = (description, prioritize) => {
   return new Promise((resolve, reject) => {
     const id = uuidv4();
     if (!todos) {
       setTimeout(() => reject(new Error('No todos found.')), 1500);
-    } else if (!todo) {
-      setTimeout(() => reject(new Error('Missing todo value.')), 1500);
+    } else if (!description) {
+      setTimeout(() => reject(new Error('Missing todo description.')), 1500);
     } else {
       const newTodo = {
         id,
         completed: false,
-        prioritized: false,
-        description: todo
+        prioritized: prioritize,
+        description: description
       };
       todos = { [id]: newTodo, ...todos };
       setTimeout(() => resolve(true), 1500);

@@ -13,8 +13,8 @@ const useOptimisticUpdates = (queryKey) => {
           {
             id: 'fakeId',
             completed: false,
-            prioritized: false,
-            description: newData
+            prioritized: newData.prioritize,
+            description: newData.description
           },
           ...oldData
         ];
