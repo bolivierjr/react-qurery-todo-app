@@ -5,13 +5,15 @@ export const getAllTodos = async () => {
   const userId = auth.currentUser.uid;
   const result = await db.ref('/users/' + userId + '/todos').once('value');
   const todos = result.val();
-  return Object.keys(todos)
-    .map((key) => {
-      const newTodo = todos[key];
-      newTodo.id = key;
-      return newTodo;
-    })
-    .reverse();
+  return todos
+    ? Object.keys(todos)
+        .map((key) => {
+          const newTodo = todos[key];
+          newTodo.id = key;
+          return newTodo;
+        })
+        .reverse()
+    : [];
 };
 
 export const createTodo = async (description, prioritize) => {
