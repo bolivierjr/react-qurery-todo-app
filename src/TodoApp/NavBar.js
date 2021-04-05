@@ -37,7 +37,7 @@ const NavBar = ({ onTabChange, tabValue, isTodosLoading, onLogOut }) => {
           <Tab label="completed" disabled={isTodosLoading} />
         </Tabs>
       </Box>
-      <Button className="nav-right" color="default" onClick={() => onLogOut()}>
+      <Button className="nav-right" color="primary" onClick={() => onLogOut()}>
         Logout
       </Button>
     </NavWrapper>

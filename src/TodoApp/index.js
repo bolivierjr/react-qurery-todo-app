@@ -154,7 +154,7 @@ const TodoApp = () => {
 
   if (isTodosLoading) return <Loader />;
   return !userInfo ? (
-    <Button color="default" onClick={async () => await fetchUser()}>
+    <Button color="primary" onClick={async () => await fetchUser()}>
       Login
     </Button>
   ) : (
