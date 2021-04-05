@@ -196,7 +196,7 @@ const TodoApp = () => {
                 />
               }
               label="Prioritize"
-              labelPlacement="right"
+              labelPlacement="end"
             />
           </CheckboxWrapper>
         </InputWrapper>

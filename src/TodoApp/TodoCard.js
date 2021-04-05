@@ -80,7 +80,7 @@ const TodoCard = ({
 
   const getTodoDescription = () => {
     return !editMode ? (
-      <p class="task-description">{todo.description}</p>
+      <p className="task-description">{todo.description}</p>
     ) : (
       <Input
         id="filled-basic"
