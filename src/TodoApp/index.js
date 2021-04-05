@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Checkbox, FormControlLabel, Tab, Tabs, TextField } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 import { createTodo, deleteTodo, getAllTodos, updateTodo } from '../api/todos';
+import NavBar from './NavBar';
 import TodoCard from './TodoCard';
 import Loader from '../components/Loader';
 import useCustomQuery from '../hooks/useCustomQuery';
 import useCustomMutation from '../hooks/useCustomMutation';
 import useOptimisticUpdates from './hooks/useOptimisticUpdates';
+import { auth, signInWithGoogle, signOutOfGoogle } from '../services/firebase';
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,7 +39,20 @@ const TodoApp = () => {
   const [tabValue, setTabValue] = useState(0);
   const [addTodoInput, setAddTodoInput] = useState('');
   const [makeNewTodoPrioritized, setMakeNewTodoPrioritized] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
   const { onMutateCreate, onMutateDelete, onMutateUpdate } = useOptimisticUpdates('todos');
+
+  const {
+    error: userError,
+    isLoading: isUserLoading,
+    isError: isUserError,
+    refetch: fetchUser,
+    remove: removeUser
+  } = useCustomQuery('user', signInWithGoogle, {
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    enabled: false
+  });
 
   const {
     data: todos,
@@ -71,6 +86,12 @@ const TodoApp = () => {
     isError: isDeleteError,
     error: deleteError
   } = useCustomMutation('todos', deleteTodo, { onMutate: onMutateDelete });
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setUserInfo(user);
+    });
+  });
 
   useEffect(() => {
     if (todos) setFilteredTodos(getFilteredTodos());
@@ -117,6 +138,7 @@ const TodoApp = () => {
     }
   };
 
+  // TODO: make real error handling messages & components
   if (isTodosError) {
     return <span>Error: {todosError.message}</span>;
   }
@@ -130,25 +152,25 @@ const TodoApp = () => {
     return <span>Error: {deleteError.message}</span>;
   }
 
-  return (
+  if (isTodosLoading) return <Loader />;
+  return !userInfo ? (
+    <Button color="default" onClick={async () => await fetchUser()}>
+      Login
+    </Button>
+  ) : (
     <Wrapper>
-      {isTodosLoading && <Loader />}
-      <Box sx={{ width: '100%' }}>
-        <Tabs
-          textColor="primary"
-          indicatorColor="primary"
-          onChange={(event, value) => {
-            setTabValue(value);
-            setExpanded(false);
-          }}
-          value={tabValue}
-          centered
-        >
-          <Tab label="show all" disabled={isTodosLoading} />
-          <Tab label="prioritized" disabled={isTodosLoading} />
-          <Tab label="completed" disabled={isTodosLoading} />
-        </Tabs>
-      </Box>
+      <NavBar
+        onTabChange={(value) => {
+          setTabValue(value);
+          setExpanded(false);
+        }}
+        onLogOut={() => {
+          signOutOfGoogle();
+          removeUser();
+        }}
+        isTodoLoading={isTodosLoading}
+        tabValue={tabValue}
+      />
       <TodosWrapper>
         <InputWrapper>
           <TextField
@@ -178,7 +200,6 @@ const TodoApp = () => {
             />
           </CheckboxWrapper>
         </InputWrapper>
-
         {filteredTodos &&
           filteredTodos.map((todo) => (
             <TodoCard
