@@ -59,19 +59,19 @@ const TodoCard = ({
   const handleCompletedClick = (event) => {
     event.stopPropagation();
     if (!completedChecked) onCompletion();
-    updateTodo(todo.id, { completed: !completedChecked });
+    updateTodo(todo.id, { ...todo, completed: !completedChecked });
     setCompletedChecked((prevState) => !prevState);
   };
 
   const handlePriorityClick = (event) => {
     event.stopPropagation();
-    updateTodo(todo.id, { prioritized: !priorityChecked });
+    updateTodo(todo.id, { ...todo, prioritized: !priorityChecked });
     setPriorityChecked((prevState) => !prevState);
   };
 
   const handleUpdateTodo = (event) => {
     if (todoInput && todo.description !== todoInput) {
-      updateTodo(todo.id, { description: todoInput });
+      updateTodo(todo.id, { ...todo, description: todoInput });
     } else {
       setTodoInput(todo.description);
     }
