@@ -8,12 +8,7 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 export const auth = firebase.auth();
 
 export const signInWithGoogle = async () => {
-  try {
-    const userResult = await auth.signInWithRedirect(googleProvider);
-    return userResult;
-  } catch (error) {
-    console.log({ error: error.message });
-  }
+  return await auth.signInWithRedirect(googleProvider);
 };
 
 export const signOutOfGoogle = async () => {
