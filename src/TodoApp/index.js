@@ -59,7 +59,7 @@ const TodoApp = () => {
     error: todosError,
     isLoading: isTodosLoading,
     isError: isTodosError
-  } = useCustomQuery('todos', getAllTodos);
+  } = useCustomQuery('todos', getAllTodos, { enabled: userInfo ? true : false });
 
   const {
     mutate: mutateCreateTodo,
